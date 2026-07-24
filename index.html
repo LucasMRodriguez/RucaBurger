@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruca Burger Llanquihue · Smash Burgers</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Spray+Paint&family=Bungee&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17130F;
+    --ink-2:#221C16;
+    --cream:#F7EFE0;
+    --cream-2:#EFE4CE;
+    --coral:#EA6650;
+    --coral-deep:#B93F2C;
+    --mustard:#F4C21E;
+    --denim:#254670;
+    --denim-deep:#182F4C;
+    --blush:#F1C6BE;
+    --line:rgba(247,239,224,0.14);
+    --shadow:0 14px 30px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .spray{font-family:'Rubik Spray Paint',cursive;font-weight:400;line-height:1;}
+  .bungee{font-family:'Bungee',cursive;font-weight:400;}
+
+  .grain{position:relative;}
+  .grain::after{
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+    mix-blend-mode:overlay;
+    opacity:0.5;
+    pointer-events:none;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(23,19,15,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .navrow{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--coral);}
+  .brand span{color:var(--cream);font-family:'Bungee',cursive;font-size:15px;letter-spacing:0.5px;}
+  .nav-right{display:flex;align-items:center;gap:14px;}
+  nav.links{display:flex;gap:24px;align-items:center;}
+  nav.links a{color:var(--cream-2);font-weight:600;font-size:14px;letter-spacing:0.3px;text-transform:uppercase;transition:color .2s;}
+  nav.links a:hover{color:var(--coral);}
+  .cta-btn{
+    background:var(--coral);color:#fff;
+    font-family:'Bungee',cursive;font-size:13px;
+    padding:11px 20px;border-radius:999px;
+    box-shadow:var(--shadow);
+    white-space:nowrap;
+    transition:transform .15s, background .2s;
+    display:inline-block;
+    border:none;cursor:pointer;
+  }
+  .cta-btn:hover{transform:translateY(-2px);background:var(--mustard);color:var(--ink);}
+  .burger-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+  .burger-toggle span{display:block;width:24px;height:2px;background:var(--cream);margin:5px 0;transition:.25s;}
+
+  .icon-btn{
+    position:relative;
+    width:42px;height:42px;border-radius:50%;
+    background:var(--ink-2);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;color:var(--cream);cursor:pointer;
+    transition:.2s;flex:0 0 auto;
+  }
+  .icon-btn:hover{border-color:var(--coral);}
+  .cart-badge{
+    position:absolute;top:-6px;right:-6px;
+    background:var(--coral);color:#fff;
+    font-family:'Bungee',cursive;font-size:10.5px;
+    min-width:19px;height:19px;border-radius:999px;
+    display:none;align-items:center;justify-content:center;
+    padding:0 4px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.4);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{background:var(--ink);color:var(--cream);padding:70px 0 0;position:relative;overflow:hidden;}
+  .hero .wrap{position:relative;z-index:2;display:flex;align-items:center;gap:40px;padding-bottom:50px;flex-wrap:wrap;}
+  .hero-copy{flex:1 1 420px;}
+  .badge-row{display:flex;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap;}
+  .pill{
+    display:inline-flex;align-items:center;gap:7px;
+    border:1px solid var(--line);border-radius:999px;
+    padding:6px 14px;font-size:12px;letter-spacing:1px;text-transform:uppercase;
+    color:var(--cream-2);font-weight:600;
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:#5ED17A;box-shadow:0 0 8px #5ED17A;}
+  .dot.closed{background:#E85B4E;box-shadow:0 0 8px #E85B4E;}
+  h1.hero-title{
+    font-size:clamp(52px,9vw,104px);color:var(--coral);margin:0 0 6px;
+    text-shadow:3px 3px 0 var(--ink), 5px 5px 0 var(--cream);letter-spacing:1px;
+  }
+  .hero-sub{font-family:'Bungee',cursive;color:var(--cream);font-size:clamp(15px,2.4vw,20px);margin:0 0 26px;letter-spacing:0.5px;}
+  .hero-sub em{color:var(--mustard);font-style:normal;}
+  .hero-desc{max-width:440px;color:var(--cream-2);font-size:15.5px;line-height:1.6;margin-bottom:30px;}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-outline{
+    border:2px solid var(--cream-2);color:var(--cream);
+    font-family:'Bungee',cursive;font-size:13px;
+    padding:11px 22px;border-radius:999px;transition:.2s;
+  }
+  .btn-outline:hover{border-color:var(--coral);color:var(--coral);}
+  .hero-art{flex:0 0 auto;position:relative;margin:0 auto;}
+  .hero-art img{
+    width:min(300px,60vw);border-radius:50%;
+    box-shadow:0 20px 50px rgba(0,0,0,0.5), 0 0 0 6px var(--ink-2), 0 0 0 8px var(--coral);
+    transform:rotate(-6deg);
+  }
+  .stamp{
+    position:absolute;top:-18px;right:-18px;
+    background:var(--mustard);color:var(--ink);
+    font-family:'Bungee',cursive;font-size:11.5px;text-align:center;line-height:1.3;
+    width:96px;height:96px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    transform:rotate(12deg);box-shadow:0 8px 18px rgba(0,0,0,0.4);letter-spacing:0.5px;
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{background:var(--coral);overflow:hidden;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);white-space:nowrap;position:relative;}
+  .marquee-track{display:inline-flex;animation:scroll 26s linear infinite;}
+  .marquee-track span{
+    font-family:'Bungee',cursive;color:var(--ink);font-size:20px;padding:14px 26px;
+    display:inline-flex;align-items:center;gap:26px;text-transform:uppercase;letter-spacing:1px;
+  }
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{padding:74px 0;}
+  .eyebrow{display:flex;align-items:center;gap:12px;font-family:'Bungee',cursive;font-size:12.5px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+  .eyebrow::before{content:"";width:26px;height:3px;background:currentColor;display:block;}
+  .section-title{font-family:'Rubik Spray Paint',cursive;font-size:clamp(34px,5vw,54px);margin:0 0 8px;line-height:1;}
+  .section-note{font-size:14.5px;opacity:0.75;max-width:520px;margin-bottom:40px;}
+
+  /* ---------- MENU: BURGERS ---------- */
+  .menu-burgers{background:var(--cream);color:var(--ink);}
+  .menu-burgers .eyebrow{color:var(--coral-deep);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+  .card{
+    background:#fff;border:1px solid rgba(23,19,15,0.08);border-radius:18px;padding:22px;
+    box-shadow:0 6px 18px rgba(23,19,15,0.06);display:flex;flex-direction:column;gap:14px;
+    transition:transform .18s, box-shadow .18s;position:relative;
+  }
+  .card:hover{transform:translateY(-4px) rotate(-0.4deg);box-shadow:0 16px 30px rgba(23,19,15,0.14);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .card-name{font-family:'Bungee',cursive;font-size:18px;letter-spacing:0.3px;}
+  .card-price{font-family:'Bungee',cursive;background:var(--coral);color:#fff;font-size:14px;padding:6px 12px;border-radius:999px;white-space:nowrap;}
+  .card-desc{font-size:14px;line-height:1.55;color:#4a4136;flex:1;}
+  .menu-footnote{margin-top:34px;display:flex;gap:26px;flex-wrap:wrap;font-size:13.5px;color:#4a4136;}
+  .menu-footnote strong{color:var(--coral-deep);}
+
+  /* ---------- STEPPER ---------- */
+  .stepper{display:flex;align-items:center;gap:10px;min-height:34px;}
+  .stepper .qty-btn{
+    width:30px;height:30px;border-radius:50%;border:1.5px solid var(--coral);background:transparent;
+    color:var(--coral-deep);font-family:'Bungee',cursive;font-size:15px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:.15s;flex:0 0 auto;
+  }
+  .stepper .qty-btn:hover{background:var(--coral);color:#fff;}
+  .stepper .qty{min-width:20px;text-align:center;font-family:'Bungee',cursive;font-size:14px;}
+  .add-btn{
+    background:var(--coral);color:#fff;border:none;font-family:'Bungee',cursive;font-size:12.5px;
+    padding:9px 18px;border-radius:999px;cursor:pointer;transition:.15s;
+  }
+  .add-btn:hover{background:var(--coral-deep);}
+
+  /* ---------- MENU: PAPAS (denim band) ---------- */
+  .menu-papas{background:var(--denim);color:var(--blush);}
+  .menu-papas .eyebrow{color:var(--mustard);}
+  .menu-papas .card{background:var(--denim-deep);border:1px solid rgba(247,239,224,0.1);color:var(--cream);}
+  .menu-papas .card-desc{color:#c9d6e8;}
+  .menu-papas .card-price{background:var(--mustard);color:var(--ink);}
+  .menu-papas .card:hover{box-shadow:0 16px 30px rgba(0,0,0,0.35);}
+  .menu-papas .stepper .qty-btn{border-color:var(--mustard);color:var(--mustard);}
+  .menu-papas .stepper .qty-btn:hover{background:var(--mustard);color:var(--ink);}
+  .menu-papas .add-btn{background:var(--mustard);color:var(--ink);}
+  .menu-papas .add-btn:hover{background:#ffd84d;}
+
+  /* ---------- COMBO STAMP ---------- */
+  .combo{background:var(--cream);padding:60px 0 90px;}
+  .combo-box{
+    background:var(--mustard);border-radius:24px;padding:44px 36px;
+    display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;
+    transform:rotate(-1.2deg);box-shadow:0 18px 34px rgba(23,19,15,0.15);
+  }
+  .combo-left{max-width:520px;}
+  .combo-tag{font-family:'Bungee',cursive;font-size:13px;letter-spacing:1.5px;color:var(--coral-deep);margin-bottom:8px;text-transform:uppercase;}
+  .combo-title{font-family:'Rubik Spray Paint',cursive;font-size:clamp(30px,4.5vw,46px);color:var(--ink);line-height:1;margin:0 0 12px;}
+  .combo-desc{font-size:15px;color:#3a3226;line-height:1.6;}
+  .combo-box .stepper .qty-btn{border-color:var(--ink);color:var(--ink);}
+  .combo-box .stepper .qty-btn:hover{background:var(--ink);color:var(--mustard);}
+  .combo-box .add-btn{background:var(--ink);color:var(--mustard);}
+  .combo-box .add-btn:hover{background:#000;}
+  .combo-price{
+    font-family:'Bungee',cursive;font-size:clamp(38px,6vw,56px);color:var(--ink);
+    background:var(--cream);border-radius:20px;padding:18px 30px;box-shadow:inset 0 0 0 3px var(--ink);
+  }
+  .combo-price small{display:block;font-size:12px;font-family:'Work Sans',sans-serif;font-weight:700;letter-spacing:1px;color:var(--coral-deep);margin-bottom:4px;}
+
+  /* ---------- UBICACION ---------- */
+  .ubicacion{background:var(--ink);color:var(--cream);}
+  .ubicacion .eyebrow{color:var(--coral);}
+  .ub-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+  .ub-info-list{display:flex;flex-direction:column;gap:22px;margin-top:10px;}
+  .ub-item{display:flex;gap:16px;align-items:flex-start;}
+  .ub-icon{
+    width:42px;height:42px;border-radius:50%;background:var(--ink-2);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;
+  }
+  .ub-item h4{margin:0 0 4px;font-family:'Bungee',cursive;font-size:14px;letter-spacing:0.3px;}
+  .ub-item p{margin:0;color:var(--cream-2);font-size:14.5px;line-height:1.55;}
+  .map-frame{border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);aspect-ratio:4/3;}
+  .map-frame iframe{width:100%;height:100%;border:0;filter:grayscale(0.15);}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink);border-top:1px solid var(--line);padding:34px 0 30px;}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .foot-brand{display:flex;align-items:center;gap:10px;color:var(--cream-2);font-size:13px;}
+  .foot-brand img{width:30px;height:30px;border-radius:50%;}
+  .foot-links{display:flex;gap:20px;font-size:13px;color:var(--cream-2);}
+  .foot-links a:hover{color:var(--coral);}
+  .foot-note{font-size:11.5px;color:#6b6154;margin-top:14px;}
+
+  /* ---------- FLOATING CART ---------- */
+  .float-cart{
+    position:fixed;bottom:22px;right:22px;z-index:60;
+    background:var(--coral);color:#fff;width:60px;height:60px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,0.35);
+    font-size:24px;border:none;cursor:pointer;transition:transform .15s;
+  }
+  .float-cart:hover{transform:scale(1.08);}
+  .float-cart .cart-badge{top:-4px;right:-4px;}
+
+  /* ---------- CART DRAWER ---------- */
+  .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);opacity:0;pointer-events:none;transition:.25s;z-index:70;}
+  .cart-overlay.open{opacity:1;pointer-events:auto;}
+  .cart-drawer{
+    position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);
+    background:var(--ink);color:var(--cream);transform:translateX(100%);
+    transition:transform .3s ease;z-index:80;display:flex;flex-direction:column;
+    box-shadow:-10px 0 30px rgba(0,0,0,0.4);
+  }
+  .cart-drawer.open{transform:translateX(0);}
+  .cart-head{display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border-bottom:1px solid var(--line);}
+  .cart-head h3{font-family:'Bungee',cursive;font-size:16px;margin:0;}
+  .cart-close{background:none;border:none;color:var(--cream-2);font-size:24px;cursor:pointer;line-height:1;}
+  .cart-body{flex:1;overflow-y:auto;padding:18px 22px;display:flex;flex-direction:column;gap:16px;}
+  .cart-empty{color:var(--cream-2);font-size:14px;text-align:center;padding:40px 0;}
+  .cart-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px dashed var(--line);}
+  .cart-row-info{flex:1;}
+  .cart-row-name{font-family:'Bungee',cursive;font-size:13.5px;}
+  .cart-row-unit{font-size:12px;color:var(--cream-2);margin-top:3px;}
+  .cart-row-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+  .cart-row-total{font-family:'Bungee',cursive;font-size:13px;color:var(--mustard);}
+  .cart-remove{background:none;border:none;color:#a99c8a;font-size:11.5px;cursor:pointer;text-decoration:underline;padding:0;}
+
+  .cart-comments label{display:block;font-family:'Bungee',cursive;font-size:11.5px;letter-spacing:0.5px;color:var(--cream-2);margin-bottom:8px;text-transform:uppercase;}
+  .cart-comments textarea{
+    width:100%;min-height:64px;resize:vertical;
+    background:var(--ink-2);border:1px solid var(--line);border-radius:12px;
+    color:var(--cream);font-family:'Work Sans',sans-serif;font-size:13.5px;
+    padding:10px 12px;line-height:1.5;
+  }
+  .cart-comments textarea::placeholder{color:#8a8074;}
+  .cart-comments textarea:focus{outline:none;border-color:var(--coral);}
+
+  .fulfillment{display:flex;background:var(--ink-2);border-radius:999px;padding:4px;gap:4px;border:1px solid var(--line);}
+  .fulfillment button{
+    flex:1;background:none;border:none;color:var(--cream-2);font-family:'Bungee',cursive;font-size:11.5px;
+    padding:9px 0;border-radius:999px;cursor:pointer;transition:.2s;
+  }
+  .fulfillment button.active{background:var(--coral);color:#fff;}
+  .fulfillment-note{font-size:12px;color:var(--cream-2);margin-top:10px;line-height:1.5;}
+
+  .cart-foot{border-top:1px solid var(--line);padding:18px 22px 22px;}
+  .cart-line{display:flex;justify-content:space-between;font-size:13.5px;color:var(--cream-2);margin-bottom:6px;}
+  .cart-line.total{color:var(--cream);font-family:'Bungee',cursive;font-size:16px;margin-top:10px;}
+  .cart-send{
+    width:100%;background:#25D366;color:#fff;border:none;font-family:'Bungee',cursive;font-size:14px;
+    padding:15px 0;border-radius:14px;margin-top:14px;cursor:pointer;transition:.2s;
+  }
+  .cart-send:hover{filter:brightness(1.08);}
+  .cart-send:disabled{opacity:0.4;cursor:not-allowed;}
+
+  /* ---------- MOBILE NAV ---------- */
+  @media (max-width:860px){
+    nav.links{
+      position:absolute;top:100%;left:0;right:0;background:var(--ink);flex-direction:column;
+      align-items:flex-start;padding:18px 24px 24px;gap:16px;border-bottom:1px solid var(--line);display:none;
+    }
+    nav.links.open{display:flex;}
+    .burger-toggle{display:block;}
+    .ub-grid{grid-template-columns:1fr;}
+    #cartToggle{display:none;}
+  }
+  @media (max-width:520px){
+    .hero{padding-top:40px;}
+    .hero .wrap{flex-direction:column-reverse;padding-bottom:36px;}
+    .combo-box{flex-direction:column;align-items:flex-start;transform:none;}
+    .section{padding:54px 0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="navrow wrap">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Ruca Burger Llanquihue">
+      <span>RUCA BURGER</span>
+    </div>
+    <div class="nav-right">
+      <nav class="links" id="navLinks">
+        <a href="#carta">Carta</a>
+        <a href="#papas">Papas</a>
+        <a href="#combo">Combos</a>
+        <a href="#ubicacion">Ubicación</a>
+        <a class="cta-btn" id="navWaContact" href="#" target="_blank" rel="noopener">Escríbenos</a>
+      </nav>
+      <button class="icon-btn" id="cartToggle" aria-label="Ver carrito">
+        🛒<span class="cart-badge" id="cartBadgeNav">0</span>
+      </button>
+      <button class="burger-toggle" id="burgerToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero grain">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="badge-row">
+        <span class="pill">🔥 Ruca Gang</span>
+        <span class="pill" id="statusPill"><span class="dot" id="statusDot"></span><span id="statusText">Cargando horario…</span></span>
+      </div>
+      <h1 class="hero-title spray">RUCA<br>BURGER</h1>
+      <p class="hero-sub">SMASH BURGERS · PAN DE PAPA · <em>SALSA RUCA EN TODAS</em></p>
+      <p class="hero-desc">Foodtruck en la Costanera de Llanquihue. 100 gr de carne de vacuno smasheada en pan de papa casero. Delivery y retiro — cerrado los miércoles.</p>
+      <div class="hero-btns">
+        <a class="cta-btn" href="#carta">🍔 Ver la carta</a>
+        <a class="btn-outline" id="heroWaContact" href="#" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="stamp">100%<br>SALSA<br>RUCA</div>
+      <img src="assets/logo.png" alt="Logo Ruca Burger">
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<section class="section menu-burgers" id="carta">
+  <div class="wrap">
+    <div class="eyebrow">La Carta · 2026</div>
+    <h2 class="section-title spray">Smash Burgers</h2>
+    <p class="section-note">100 gr de carne de vacuno en exquisito pan de papa. Todas las burgers llevan salsa Ruca. Retiro: agrega papas fritas por $1.000. Delivery: cada burger se cobra con papas incluidas.</p>
+    <div class="grid" id="burgerGrid"></div>
+    <div class="menu-footnote">
+      <span><strong>Pan de papa</strong> · 100 gr de burger de vacuno</span>
+      <span><strong>Delivery y retiro</strong> · pedidos por WhatsApp</span>
+      <span><strong>Con delivery</strong> · las burgers incluyen y se cobran con papas fritas</span>
+    </div>
+  </div>
+</section>
+
+<section class="section menu-papas" id="papas">
+  <div class="wrap">
+    <div class="eyebrow">Para acompañar</div>
+    <h2 class="section-title spray">Papas Fritas Individuales</h2>
+    <p class="section-note">Porciones para comer solas o compartir en la mesa.</p>
+    <div class="grid" id="papasGrid"></div>
+  </div>
+</section>
+
+<section class="combo" id="combo">
+  <div class="wrap">
+    <div class="combo-box">
+      <div class="combo-left">
+        <div class="combo-tag">Para compartir</div>
+        <h3 class="combo-title spray">Box 4 Burgers</h3>
+        <p class="combo-desc">4 burgers con doble tocino y queso cheddar + caja de papas fritas. Ya incluye las papas, sin cargo extra por delivery.</p>
+        <div class="stepper" id="comboStepper" style="margin-top:18px;"></div>
+      </div>
+      <div class="combo-price">
+        <small>Precio Box</small>
+        $24.000
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section ubicacion" id="ubicacion">
+  <div class="wrap">
+    <div class="eyebrow">Encuéntranos</div>
+    <h2 class="section-title spray">Ubicación &amp; horario</h2>
+    <div class="ub-grid" style="margin-top:30px;">
+      <div>
+        <div class="ub-info-list">
+          <div class="ub-item">
+            <div class="ub-icon">📍</div>
+            <div><h4>Dónde estamos</h4><p>Frente a la infografía, Costanera de Llanquihue.</p></div>
+          </div>
+          <div class="ub-item">
+            <div class="ub-icon">🕒</div>
+            <div>
+              <h4>Horario</h4>
+              <p>
+                Lunes a martes: 15:00 – 22:00<br>
+                Miércoles: cerrado<br>
+                Jueves a viernes: 15:00 – 22:00<br>
+                Sábado y domingo: 13:00 – 22:00
+              </p>
+            </div>
+          </div>
+          <div class="ub-item">
+            <div class="ub-icon">📱</div>
+            <div><h4>Pedidos</h4><p>+56 9 4519 2879 — WhatsApp para delivery y retiro.</p></div>
+          </div>
+          <div class="ub-item">
+            <div class="ub-icon">🚚</div>
+            <div><h4>Delivery</h4><p>Con delivery las hamburguesas incluyen y se cobran con papas fritas.</p></div>
+          </div>
+        </div>
+        <a class="cta-btn" id="ubWa" href="#" target="_blank" rel="noopener" style="margin-top:28px;display:inline-block;">Escribir por WhatsApp</a>
+      </div>
+      <div class="map-frame">
+        <iframe src="https://www.google.com/maps?q=Costanera+de+Llanquihue,+Llanquihue,+Chile&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="foot-brand">
+        <img src="assets/logo.png" alt="Ruca Burger">
+        Ruca Burger Llanquihue · Foodtruck de smash burgers
+      </div>
+      <div class="foot-links">
+        <a href="https://instagram.com/rucaburger.cl" target="_blank" rel="noopener">Instagram</a>
+        <a id="footWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#ubicacion">Ubicación</a>
+      </div>
+    </div>
+    <div class="foot-note">Prototipo de sitio web — Ruca Burger Llanquihue. En alianza con Marley Coffee.</div>
+  </div>
+</footer>
+
+<button class="float-cart" id="floatCart" aria-label="Ver carrito">
+  🛒<span class="cart-badge" id="cartBadgeFloat">0</span>
+</button>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3 class="bungee">🛒 Tu pedido</h3>
+    <button class="cart-close" id="cartClose" aria-label="Cerrar carrito">×</button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <p class="cart-empty">Tu carrito está vacío. Agrega algo de la carta 🍔</p>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-comments" style="margin-bottom:14px;">
+      <label for="cartComments">Comentarios del pedido</label>
+      <textarea id="cartComments" placeholder="Ej: sin cebolla en la Sinaloa, agregar cubiertos, tocar el timbre, cambiar un ingrediente…"></textarea>
+    </div>
+    <div class="fulfillment" id="fulfillmentToggle">
+      <button class="active" data-mode="retiro">Retiro</button>
+      <button data-mode="delivery">Delivery</button>
+    </div>
+    <p class="fulfillment-note" id="fulfillmentNote">Retiro en el foodtruck, Costanera de Llanquihue.</p>
+    <div class="cart-line"><span>Subtotal</span><span id="cartSubtotal">$0</span></div>
+    <div class="cart-line" id="deliveryFeeLine" style="display:none;"><span>Papas por delivery</span><span id="cartDeliveryFee">$0</span></div>
+    <div class="cart-line total"><span>Total</span><span id="cartTotal">$0</span></div>
+    <button class="cart-send" id="cartSend" disabled>Enviar pedido por WhatsApp</button>
+  </div>
+</aside>
+
+<script>
+  const WA_NUMBER = "56945192879";
+  const fmt = n => n.toLocaleString('es-CL');
+
+  const burgers = [
+    {id:"sinaloa", name:"Sinaloa", price:6800, category:"burger", desc:"Huevo, doble tocino, queso cheddar, jalapeño."},
+    {id:"punto-g", name:"Punto G", price:6800, category:"burger", desc:"Aros de cebolla apanados, tocino x2, queso cheddar."},
+    {id:"poppa", name:"Poppa", price:6800, category:"burger", desc:"Cebolla a la plancha, pepinillo dill, tocino x2, queso cheddar."},
+    {id:"fungi", name:"Fungi", price:6800, category:"burger", desc:"Champiñones salteados, cebolla caramelizada, tocino x2, queso cheddar."},
+    {id:"og-kush", name:"OG Kush", price:6800, category:"burger", desc:"Lechuga, tomate, queso cheddar, mayo kraft."},
+    {id:"fixita", name:"Fixita", price:5500, category:"burger", desc:"Cheddar cheddar x2."},
+    {id:"paranoia", name:"Paranoia", price:7200, category:"burger", desc:"Mermelada de tocino, burger x2, queso cheddar x2."},
+    {id:"la-creme", name:"La Creme", price:7200, category:"burger", desc:"Morrón salteado, queso philadelphia, burger x2."},
+    {id:"dopamina", name:"Dopamina", price:7200, category:"burger", desc:"Carne mechada, burger, queso mantecoso, queso cheddar."},
+    {id:"balenciaga", name:"Balenciaga", price:7200, category:"burger", desc:"Cebolla crispy, mermelada de tocino, queso cheddar, jalapeños."},
+    {id:"big-cut", name:"Big Cut", price:13000, category:"burger", desc:"5 burgers, 5 quesos cheddar, tocino x2. Para compartir."},
+  ];
+
+  const papas = [
+    {id:"solo-papas", name:"Solo Papas", price:2500, category:"papas", desc:"Papas fritas clásicas."},
+    {id:"safaera", name:"Safaera", price:5500, category:"papas", desc:"Papas fritas, carne mechada, salsa queso cheddar, cebollín."},
+    {id:"insomnio", name:"Insomnio", price:5500, category:"papas", desc:"Papas fritas, cebolla caramelizada, salsa queso cheddar, tocino picado."},
+    {id:"klavel", name:"Klavel", price:4800, category:"papas", desc:"Papas fritas, salsa queso cheddar, tocino crujiente picado."},
+    {id:"klavel-xl", name:"Klavel XL", price:8000, category:"papas", desc:"El doble de ingredientes de Klavel normal."},
+    {id:"doce-aros", name:"Doce Aros", price:4000, category:"papas", desc:"12 aros de cebolla apanados + potes bbq."},
+  ];
+
+  const comboItem = {id:"box-4-burgers", name:"Box 4 Burgers", price:24000, category:"combo", desc:"4 burgers doble tocino + queso cheddar + caja de papas fritas."};
+
+  const allItems = [...burgers, ...papas, comboItem];
+  const cart = {}; // id -> {item, qty}
+  let fulfillment = "retiro";
+
+  function renderStepper(el, item){
+    if(!el) return;
+    const entry = cart[item.id];
+    const qty = entry ? entry.qty : 0;
+    if(qty === 0){
+      el.innerHTML = `<button class="add-btn" data-action="add" data-id="${item.id}">Agregar</button>`;
+    } else {
+      el.innerHTML = `
+        <button class="qty-btn" data-action="dec" data-id="${item.id}" aria-label="Quitar uno">−</button>
+        <span class="qty">${qty}</span>
+        <button class="qty-btn" data-action="inc" data-id="${item.id}" aria-label="Agregar uno">+</button>
+      `;
+    }
+  }
+
+  function renderGrid(containerId, items){
+    const el = document.getElementById(containerId);
+    el.innerHTML = items.map(it => `
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name bungee">${it.name}</div>
+          <div class="card-price">$${fmt(it.price)}</div>
+        </div>
+        <div class="card-desc">${it.desc}</div>
+        <div class="stepper" data-id="${it.id}"></div>
+      </div>
+    `).join("");
+    items.forEach(it => renderStepper(el.querySelector(`.stepper[data-id="${it.id}"]`), it));
+  }
+
+  function changeQty(item, delta){
+    const entry = cart[item.id] || {item, qty:0};
+    entry.qty = Math.max(0, entry.qty + delta);
+    if(entry.qty === 0){ delete cart[item.id]; } else { cart[item.id] = entry; }
+    refreshAll();
+  }
+
+  function renderCartDrawer(){
+    const body = document.getElementById("cartBody");
+    const entries = Object.values(cart);
+    if(entries.length === 0){
+      body.innerHTML = `<p class="cart-empty">Tu carrito está vacío. Agrega algo de la carta 🍔</p>`;
+    } else {
+      body.innerHTML = entries.map(e => `
+        <div class="cart-row">
+          <div class="cart-row-info">
+            <div class="cart-row-name bungee">${e.item.name}</div>
+            <div class="cart-row-unit">$${fmt(e.item.price)} c/u · x${e.qty}</div>
+          </div>
+          <div class="cart-row-right">
+            <div class="cart-row-total">$${fmt(e.item.price * e.qty)}</div>
+            <button class="cart-remove" data-action="remove" data-id="${e.item.id}">Quitar</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    const subtotal = entries.reduce((s,e)=> s + e.item.price*e.qty, 0);
+    const burgerUnits = entries.filter(e=>e.item.category==='burger').reduce((s,e)=>s+e.qty,0);
+    const deliveryFee = fulfillment === 'delivery' ? burgerUnits * 1000 : 0;
+    const total = subtotal + deliveryFee;
+
+    document.getElementById("cartSubtotal").textContent = `$${fmt(subtotal)}`;
+    const feeLine = document.getElementById("deliveryFeeLine");
+    if(deliveryFee > 0){
+      feeLine.style.display = "flex";
+      document.getElementById("cartDeliveryFee").textContent = `$${fmt(deliveryFee)} (${burgerUnits} burger${burgerUnits>1?'s':''} x $1.000)`;
+    } else {
+      feeLine.style.display = "none";
+    }
+    document.getElementById("cartTotal").textContent = `$${fmt(total)}`;
+
+    document.getElementById("fulfillmentNote").textContent = fulfillment === 'delivery'
+      ? "Con delivery, cada burger se cobra con papas fritas incluidas (+$1.000 c/u). El Box 4 Burgers ya las incluye."
+      : "Retiro en el foodtruck, Costanera de Llanquihue.";
+
+    document.getElementById("cartSend").disabled = entries.length === 0;
+
+    const count = entries.reduce((s,e)=>s+e.qty,0);
+    [document.getElementById("cartBadgeNav"), document.getElementById("cartBadgeFloat")].forEach(b=>{
+      b.style.display = count>0 ? "flex" : "none";
+      b.textContent = count;
+    });
+  }
+
+  function refreshAll(){
+    renderGrid("burgerGrid", burgers);
+    renderGrid("papasGrid", papas);
+    renderStepper(document.getElementById("comboStepper"), comboItem);
+    renderCartDrawer();
+  }
+
+  document.addEventListener("click", (e)=>{
+    const btn = e.target.closest("[data-action]");
+    if(!btn) return;
+    const action = btn.dataset.action;
+    const id = btn.dataset.id;
+    const item = allItems.find(i=>i.id===id);
+    if(!item) return;
+    if(action==="add" || action==="inc") changeQty(item, 1);
+    if(action==="dec") changeQty(item, -1);
+    if(action==="remove"){ delete cart[id]; refreshAll(); }
+  });
+
+  document.getElementById("fulfillmentToggle").addEventListener("click",(e)=>{
+    const btn = e.target.closest("button[data-mode]");
+    if(!btn) return;
+    fulfillment = btn.dataset.mode;
+    document.querySelectorAll("#fulfillmentToggle button").forEach(b=>b.classList.toggle("active", b===btn));
+    renderCartDrawer();
+  });
+
+  const overlay = document.getElementById("cartOverlay");
+  const drawer = document.getElementById("cartDrawer");
+  function openCart(){ overlay.classList.add("open"); drawer.classList.add("open"); }
+  function closeCart(){ overlay.classList.remove("open"); drawer.classList.remove("open"); }
+  document.getElementById("cartToggle").addEventListener("click", openCart);
+  document.getElementById("floatCart").addEventListener("click", openCart);
+  document.getElementById("cartClose").addEventListener("click", closeCart);
+  overlay.addEventListener("click", closeCart);
+
+  document.getElementById("cartSend").addEventListener("click", ()=>{
+    const entries = Object.values(cart);
+    if(entries.length===0) return;
+    const subtotal = entries.reduce((s,e)=> s + e.item.price*e.qty, 0);
+    const burgerUnits = entries.filter(e=>e.item.category==='burger').reduce((s,e)=>s+e.qty,0);
+    const deliveryFee = fulfillment === 'delivery' ? burgerUnits * 1000 : 0;
+    const total = subtotal + deliveryFee;
+
+    const comments = document.getElementById("cartComments").value.trim();
+
+    let msg = "Hola! Quiero hacer este pedido 🛒\n\n";
+    entries.forEach(e => { msg += `• ${e.item.name} x${e.qty} — $${fmt(e.item.price*e.qty)}\n`; });
+    msg += `\nTipo: ${fulfillment === 'delivery' ? 'Delivery' : 'Retiro'}\n`;
+    if(deliveryFee>0) msg += `Papas por delivery: $${fmt(deliveryFee)} (${burgerUnits} burger${burgerUnits>1?'s':''} x $1.000)\n`;
+    msg += `Total: $${fmt(total)}`;
+    if(comments) msg += `\n\nComentarios: ${comments}`;
+
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+  });
+
+  // marquee content
+  const marqueeItems = burgers.map(b => b.name).concat(papas.map(p=>p.name));
+  const marqueeHtml = marqueeItems.map(n => `<span>★ ${n}</span>`).join("");
+  document.getElementById("marqueeTrack").innerHTML = marqueeHtml + marqueeHtml;
+
+  // generic contact links (not tied to the cart)
+  const genericWaLink = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hola! Tengo una consulta sobre Ruca Burger 🍔")}`;
+  ["navWaContact","heroWaContact","ubWa","footWa"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.href = genericWaLink;
+  });
+
+  // open/closed status — America/Santiago, hours vary by day
+  // 0=Domingo ... 6=Sábado (getDay convention). null = cerrado todo el día.
+  const WEEK_HOURS = {
+    0:[13,22], // Domingo
+    1:[15,22], // Lunes
+    2:[15,22], // Martes
+    3:null,    // Miércoles - cerrado
+    4:[15,22], // Jueves
+    5:[15,22], // Viernes
+    6:[13,22], // Sábado
+  };
+
+  function updateStatus(){
+    const now = new Date();
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone:'America/Santiago', hour:'2-digit', minute:'2-digit', hour12:false, weekday:'short'
+    }).formatToParts(now);
+    const hour = parseInt(parts.find(p=>p.type==='hour').value,10);
+    const minute = parseInt(parts.find(p=>p.type==='minute').value,10);
+    const weekdayShort = parts.find(p=>p.type==='weekday').value; // e.g. "Thu"
+    const weekdayMap = {Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+    const day = weekdayMap[weekdayShort];
+    const mins = hour*60+minute;
+    const todayHours = WEEK_HOURS[day];
+    const open = todayHours !== null && mins >= todayHours[0]*60 && mins < todayHours[1]*60;
+
+    const dot = document.getElementById("statusDot");
+    const text = document.getElementById("statusText");
+    if(open){
+      dot.classList.remove("closed");
+      text.textContent = `Abierto ahora · hasta las ${todayHours[1]}:00`;
+    } else {
+      dot.classList.add("closed");
+      // find next day (or later today) with hours to show opening time
+      let nextOpen = null;
+      for(let i=0;i<8;i++){
+        const d = (day+i)%7;
+        const h = WEEK_HOURS[d];
+        if(h && (i>0 || mins < h[0]*60)){ nextOpen = h[0]; break; }
+      }
+      text.textContent = nextOpen !== null ? `Cerrado · abre a las ${nextOpen}:00` : "Cerrado";
+    }
+  }
+  updateStatus();
+  setInterval(updateStatus, 60000);
+
+  // mobile nav toggle
+  const toggle = document.getElementById("burgerToggle");
+  const links = document.getElementById("navLinks");
+  toggle.addEventListener("click", ()=> links.classList.toggle("open"));
+  links.querySelectorAll("a").forEach(a=> a.addEventListener("click", ()=> links.classList.remove("open")));
+
+  refreshAll();
+</script>
+</body>
+</html>
